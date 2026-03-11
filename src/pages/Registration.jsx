@@ -11,7 +11,7 @@ import {
 export default function Registration() {
   const navigate = useNavigate();
 
-  const registrationEnd = new Date("2026-03-10");
+  const registrationEnd = new Date("2026-03-24");
   if (new Date() > registrationEnd) {
     return (
       <div className="container">
