@@ -46,8 +46,6 @@ export default function Registration() {
 
   const [captchaToken, setCaptchaToken] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [cooldown, setCooldown] = useState(0);
-  const [loadTime] = useState(Date.now());
   const [lockRemaining, setLockRemaining] = useState(0);
 
   const ATTEMPT_LIMIT = 3;
@@ -94,15 +92,6 @@ export default function Registration() {
   }, []);
 
   useEffect(() => {
-    const detect = setInterval(() => {
-      if (window.outerWidth - window.innerWidth > 200) {
-        console.warn("DevTools detected");
-      }
-    }, 1000);
-    return () => clearInterval(detect);
-  }, []);
-
-  useEffect(() => {
     const token = crypto.randomUUID();
     sessionStorage.setItem("session_token", token);
   }, []);
@@ -126,9 +115,32 @@ export default function Registration() {
       }));
     }
   };
+  const validatePlayer = (player) => {
+
+    if (player.year === "1" && !player.student_no.startsWith("25")) {
+      alert("First year student number must start with 25.");
+      return false;
+    }
+
+    if (player.year === "2" && !player.student_no.startsWith("24")) {
+      alert("Second year student number must start with 24.");
+      return false;
+    }
+
+    const firstName = player.name.trim().split(" ")[0].toLowerCase();
+    const expectedEmail = `${firstName}${player.student_no}@akgec.ac.in`;
+
+    if (player.email.toLowerCase() !== expectedEmail) {
+      alert(`Email must be in format: ${expectedEmail}`);
+      return false;
+    }
+
+    return true;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (isSubmitting || lockRemaining > 0) return;
 
     setIsSubmitting(true);
@@ -137,6 +149,17 @@ export default function Registration() {
       alert("Complete CAPTCHA.");
       setIsSubmitting(false);
       return;
+    }
+    if (!validatePlayer(formData.player1)) {
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (formData.team_type === "duo") {
+      if (!validatePlayer(formData.player2)) {
+        setIsSubmitting(false);
+        return;
+      }
     }
 
     try {
@@ -225,12 +248,12 @@ export default function Registration() {
             fontWeight: "bold"
           }}
         >
-          Too many failed attempts. Try again in{" "}
-          {formatTime(lockRemaining)}
+          Too many failed attempts. Try again in {formatTime(lockRemaining)}
         </div>
       )}
 
       <form onSubmit={handleSubmit}>
+
         <input
           type="text"
           name="website"
@@ -294,6 +317,7 @@ export default function Registration() {
         <button type="submit" disabled={isSubmitting || lockRemaining > 0}>
           {isSubmitting ? "Processing Payment..." : "Pay & Register"}
         </button>
+
       </form>
     </div>
   );

@@ -115,3 +115,82 @@ button:disabled {
 .container::-webkit-scrollbar-track {
   background: transparent;
 }
+/* Tablet screens */
+@media (max-width: 768px) {
+  body {
+    padding: 20px;
+    align-items: flex-start;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+  }
+
+  .container h2 {
+    font-size: 24px;
+  }
+
+  .container h3 {
+    font-size: 17px;
+  }
+
+  input,
+  select {
+    padding: 11px;
+    font-size: 14px;
+  }
+
+  button {
+    padding: 13px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 15px;
+  }
+
+  .container {
+    width: 100%;
+    padding: 22px;
+    border-radius: 14px;
+  }
+
+  .container h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .container h3 {
+    font-size: 16px;
+  }
+
+  input,
+  select {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  button {
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 360px) {
+  .container {
+    padding: 18px;
+  }
+
+  .container h2 {
+    font-size: 20px;
+  }
+
+  input,
+  select {
+    font-size: 12px;
+  }
+}
