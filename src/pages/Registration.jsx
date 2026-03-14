@@ -235,100 +235,140 @@ export default function Registration() {
   };
 
   return (
-    <div className="container">
-      <h2>BlockVerse Registration</h2>
+    <div className="page-wrapper">
+      <div className="info-section">
+        <div className="tech-bg"></div>
+        <div className="content-wrapper">
+          <h1 className="event-title">BLOCKVERSE '26</h1>
+          <p className="event-subtitle">Blockchain Research Lab Presents</p>
 
-      {lockRemaining > 0 && (
-        <div
-          style={{
-            background: "#dc2626",
-            padding: "10px",
-            borderRadius: "8px",
-            marginBottom: "15px",
-            textAlign: "center",
-            fontWeight: "bold"
-          }}
-        >
-          Too many failed attempts. Try again in {formatTime(lockRemaining)}
-        </div>
-      )}
-
-      <form onSubmit={handleSubmit}>
-
-        <input
-          type="text"
-          name="website"
-          style={{ display: "none" }}
-          autoComplete="off"
-        />
-
-        <input
-          type="text"
-          name="teamId"
-          placeholder="Team ID"
-          value={formData.teamId}
-          onChange={handleChange}
-          required
-          disabled={lockRemaining > 0}
-        />
-
-        <select
-          name="team_type"
-          value={formData.team_type}
-          onChange={handleChange}
-          disabled={lockRemaining > 0}
-        >
-          <option value="solo">Solo</option>
-          <option value="duo">Duo</option>
-        </select>
-
-        <h3>Player 1</h3>
-        <PlayerForm
-          playerData={formData.player1}
-          handleChange={handleChange}
-          playerKey="player1"
-        />
-
-        {formData.team_type === "duo" && (
-          <>
-            <h3>Player 2</h3>
-            <PlayerForm
-              playerData={formData.player2}
-              handleChange={handleChange}
-              playerKey="player2"
-            />
-          </>
-        )}
-
-        <input
-          type="password"
-          name="password"
-          placeholder="Strong Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-          disabled={lockRemaining > 0}
-        />
-
-        {import.meta.env.VITE_RECAPTCHA_SITE_KEY && !captchaError ? (
-          <ReCAPTCHA
-            sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-            onChange={(token) => setCaptchaToken(token)}
-            onErrored={() => setCaptchaError(true)}
-          />
-        ) : (
-          <div style={{ color: "#ef4444", fontSize: "12px", margin: "10px 0" }}>
-            {captchaError
-              ? "ReCAPTCHA failed to load. You may continue without it."
-              : "ReCAPTCHA site key is missing. You may continue without it."}
+          <div className="event-details">
+            <div className="detail-item">
+              <span className="label">Date:</span>
+              <span className="value">22–24 March</span>
+            </div>
+            <div className="detail-item">
+              <span className="label">Team Size:</span>
+              <span className="value">1–2 members</span>
+            </div>
+            <div className="detail-item">
+              <span className="label">Venue:</span>
+              <span className="value">CSIT Block</span>
+            </div>
           </div>
-        )}
 
-        <button type="submit" disabled={isSubmitting || lockRemaining > 0}>
-          {isSubmitting ? "Processing Payment..." : "Pay & Register"}
-        </button>
+          <div className="highlights">
+            <h3>HIGHLIGHTS</h3>
+            <div className="chips-container">
+              <span className="chip">Cash Prizes</span>
+              <span className="chip">Certificates</span>
+              <span className="chip">Goodies</span>
+            </div>
+          </div>
 
-      </form>
+          <div className="prize-pool">
+            <h3>PRIZE POOL</h3>
+            <div className="prize-value">₹6,000</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="form-section">
+        <div className="container">
+          <h2>Registration</h2>
+
+          {lockRemaining > 0 && (
+            <div
+              className="lock-banner"
+            >
+              Too many failed attempts. Try again in {formatTime(lockRemaining)}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+
+            <input
+              type="text"
+              name="website"
+              style={{ display: "none" }}
+              autoComplete="off"
+            />
+
+            <input
+              type="text"
+              name="teamId"
+              placeholder="Team ID"
+              value={formData.teamId}
+              onChange={handleChange}
+              required
+              disabled={lockRemaining > 0}
+            />
+
+            <select
+              name="team_type"
+              value={formData.team_type}
+              onChange={handleChange}
+              disabled={lockRemaining > 0}
+            >
+              <option value="solo">Solo</option>
+              <option value="duo">Duo</option>
+            </select>
+
+            <div className="player-forms-container">
+              <div className="player-block">
+                <h3>PLAYER 1</h3>
+                <PlayerForm
+                  playerData={formData.player1}
+                  handleChange={handleChange}
+                  playerKey="player1"
+                />
+              </div>
+
+              {formData.team_type === "duo" && (
+                <div className="player-block">
+                  <h3>PLAYER 2</h3>
+                  <PlayerForm
+                    playerData={formData.player2}
+                    handleChange={handleChange}
+                    playerKey="player2"
+                  />
+                </div>
+              )}
+            </div>
+
+            <input
+              type="password"
+              name="password"
+              placeholder="Strong Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              disabled={lockRemaining > 0}
+            />
+
+            <div className="captcha-wrapper">
+              {import.meta.env.VITE_RECAPTCHA_SITE_KEY && !captchaError ? (
+                <ReCAPTCHA
+                  sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+                  onChange={(token) => setCaptchaToken(token)}
+                  onErrored={() => setCaptchaError(true)}
+                />
+              ) : (
+                <div className="captcha-error">
+                  {captchaError
+                    ? "ReCAPTCHA failed to load. You may continue without it."
+                    : "ReCAPTCHA site key is missing. You may continue without it."}
+                </div>
+              )}
+            </div>
+
+            <button type="submit" disabled={isSubmitting || lockRemaining > 0}>
+              {isSubmitting ? "Processing Payment..." : "Pay & Register"}
+            </button>
+
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
