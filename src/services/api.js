@@ -1,10 +1,9 @@
-const API_URL = import.meta.env.VITE_API_URL;
-
-if (!API_URL) {
-  throw new Error("VITE_API_URL is not configured.");
-}
+const API_URL = import.meta.env.VITE_API_URL || "";
 
 const secureFetch = async (endpoint, options = {}) => {
+  if (!API_URL) {
+    throw new Error("VITE_API_URL is not configured.");
+  }
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 10000);
 
