@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
+
 :root {
   --neon-cyan: #00f3ff;
   --neon-blue: #0072ff;
@@ -41,6 +43,7 @@
 }
 
 * {
+  font-family: 'Orbitron', 'Segoe UI', sans-serif;
   box-sizing: border-box;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -485,6 +488,7 @@ select,
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   font-size: 15px;
   letter-spacing: 0.5px;
+  font-family: 'Orbitron', 'Segoe UI', sans-serif;
 }
 
 input::placeholder {
@@ -563,6 +567,7 @@ button {
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(10px);
+  font-family: inherit;
 }
 
 button::before {
