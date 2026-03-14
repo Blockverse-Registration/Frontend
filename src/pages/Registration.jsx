@@ -45,6 +45,7 @@ export default function Registration() {
   });
 
   const [captchaToken, setCaptchaToken] = useState(null);
+  const [captchaError, setCaptchaError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [lockRemaining, setLockRemaining] = useState(0);
 
@@ -145,7 +146,7 @@ export default function Registration() {
 
     setIsSubmitting(true);
 
-    if (!captchaToken) {
+    if (!captchaToken && !captchaError && import.meta.env.VITE_RECAPTCHA_SITE_KEY) {
       alert("Complete CAPTCHA.");
       setIsSubmitting(false);
       return;
@@ -309,10 +310,19 @@ export default function Registration() {
           disabled={lockRemaining > 0}
         />
 
-        <ReCAPTCHA
-          sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-          onChange={(token) => setCaptchaToken(token)}
-        />
+        {import.meta.env.VITE_RECAPTCHA_SITE_KEY && !captchaError ? (
+          <ReCAPTCHA
+            sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+            onChange={(token) => setCaptchaToken(token)}
+            onErrored={() => setCaptchaError(true)}
+          />
+        ) : (
+          <div style={{ color: "#ef4444", fontSize: "12px", margin: "10px 0" }}>
+            {captchaError
+              ? "ReCAPTCHA failed to load. You may continue without it."
+              : "ReCAPTCHA site key is missing. You may continue without it."}
+          </div>
+        )}
 
         <button type="submit" disabled={isSubmitting || lockRemaining > 0}>
           {isSubmitting ? "Processing Payment..." : "Pay & Register"}
