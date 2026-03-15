@@ -48,6 +48,8 @@ export default function Registration() {
   const [captchaError, setCaptchaError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [lockRemaining, setLockRemaining] = useState(0);
+  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const ATTEMPT_LIMIT = 3;
   const LOCK_TIME = 10 * 60 * 1000;
@@ -102,13 +104,28 @@ export default function Registration() {
     const cleanValue = value.replace(/<[^>]*>?/gm, "");
 
     if (playerKey) {
-      setFormData((prev) => ({
-        ...prev,
-        [playerKey]: {
+      setFormData((prev) => {
+        const updatedPlayer = {
           ...prev[playerKey],
           [name]: cleanValue
+        };
+
+        // Auto-calculate email if name or student_no changes
+        if (name === "name" || name === "student_no") {
+          const firstName = updatedPlayer.name.trim().split(" ")[0].toLowerCase();
+          const studentNo = updatedPlayer.student_no.trim();
+          if (firstName && studentNo) {
+            updatedPlayer.email = `${firstName}${studentNo}@akgec.ac.in`;
+          } else {
+            updatedPlayer.email = "";
+          }
         }
-      }));
+
+        return {
+          ...prev,
+          [playerKey]: updatedPlayer
+        };
+      });
     } else {
       setFormData((prev) => ({
         ...prev,
@@ -116,26 +133,37 @@ export default function Registration() {
       }));
     }
   };
-  const validatePlayer = (player) => {
+  const validatePlayer = (player, playerKey) => {
+    let playerErrors = {};
 
-    if (player.year === "1" && !player.student_no.startsWith("25")) {
-      alert("First year student number must start with 25.");
-      return false;
+    if (player.year === "1st Year" && !player.student_no.startsWith("25")) {
+      playerErrors.student_no = "1st year student number must start with 25.";
     }
 
-    if (player.year === "2" && !player.student_no.startsWith("24")) {
-      alert("Second year student number must start with 24.");
-      return false;
+    if (player.year === "2nd Year" && !player.student_no.startsWith("24")) {
+      playerErrors.student_no = "2nd year student number must start with 24.";
     }
 
     const firstName = player.name.trim().split(" ")[0].toLowerCase();
     const expectedEmail = `${firstName}${player.student_no}@akgec.ac.in`;
 
     if (player.email.toLowerCase() !== expectedEmail) {
-      alert(`Email must be in format: ${expectedEmail}`);
+      playerErrors.email = `Email must be: ${expectedEmail}`;
+    }
+
+    if (Object.keys(playerErrors).length > 0) {
+      setErrors((prev) => ({
+        ...prev,
+        [playerKey]: playerErrors
+      }));
       return false;
     }
 
+    setErrors((prev) => {
+      const newErrors = { ...prev };
+      delete newErrors[playerKey];
+      return newErrors;
+    });
     return true;
   };
 
@@ -147,20 +175,23 @@ export default function Registration() {
     setIsSubmitting(true);
 
     if (!captchaToken && !captchaError && import.meta.env.VITE_RECAPTCHA_SITE_KEY) {
+      setIsSubmitting(false);
       alert("Complete CAPTCHA.");
-      setIsSubmitting(false);
-      return;
-    }
-    if (!validatePlayer(formData.player1)) {
-      setIsSubmitting(false);
       return;
     }
 
+    setErrors({});
+
+    const isP1Valid = validatePlayer(formData.player1, "player1");
+    let isP2Valid = true;
+
     if (formData.team_type === "duo") {
-      if (!validatePlayer(formData.player2)) {
-        setIsSubmitting(false);
-        return;
-      }
+      isP2Valid = validatePlayer(formData.player2, "player2");
+    }
+
+    if (!isP1Valid || !isP2Valid) {
+      setIsSubmitting(false);
+      return;
     }
 
     try {
@@ -302,7 +333,7 @@ export default function Registration() {
             <input
               type="text"
               name="teamId"
-              placeholder="Team ID"
+              placeholder="Team Name"
               value={formData.teamId}
               onChange={handleChange}
               required
@@ -348,6 +379,7 @@ export default function Registration() {
                   playerData={formData.player1}
                   handleChange={handleChange}
                   playerKey="player1"
+                  errors={errors.player1 || {}}
                 />
               </div>
 
@@ -358,20 +390,41 @@ export default function Registration() {
                     playerData={formData.player2}
                     handleChange={handleChange}
                     playerKey="player2"
+                    errors={errors.player2 || {}}
                   />
                 </div>
               )}
             </div>
 
-            <input
-              type="password"
-              name="password"
-              placeholder="Strong Password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              disabled={lockRemaining > 0}
-            />
+            <div className="password-input-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Strong Password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                disabled={lockRemaining > 0}
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+                disabled={lockRemaining > 0}
+              >
+                {showPassword ? (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                    <line x1="1" y1="1" x2="23" y2="23" />
+                  </svg>
+                ) : (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                )}
+              </button>
+            </div>
 
             <div className="captcha-wrapper">
               {import.meta.env.VITE_RECAPTCHA_SITE_KEY && !captchaError ? (

@@ -4,35 +4,46 @@ import SelectField from "./SelectField";
 export default function PlayerForm({
   playerData,
   handleChange,
-  playerKey
+  playerKey,
+  errors = {}
 }) {
   return (
     <div className="player-section">
 
     
-      <InputField
-        type="text"
-        name="name"
-        placeholder="Name"
-        value={playerData.name || ""}
-        onChange={(e) => handleChange(e, playerKey)}
-      />
+      <div className="input-group">
+        <InputField
+          type="text"
+          name="name"
+          placeholder="Name"
+          value={playerData.name || ""}
+          onChange={(e) => handleChange(e, playerKey)}
+        />
+        {errors.name && <span className="error-message">{errors.name}</span>}
+      </div>
 
-      <InputField
-        type="text"
-        name="student_no"
-        placeholder="Student Number"
-        value={playerData.student_no || ""}
-        onChange={(e) => handleChange(e, playerKey)}
-      />
+      <div className="input-group">
+        <InputField
+          type="text"
+          name="student_no"
+          placeholder="Student Number"
+          value={playerData.student_no || ""}
+          onChange={(e) => handleChange(e, playerKey)}
+        />
+        {errors.student_no && <span className="error-message">{errors.student_no}</span>}
+      </div>
 
-      <InputField
-        type="email"
-        name="email"
-        placeholder="Email"
-        value={playerData.email || ""}
-        onChange={(e) => handleChange(e, playerKey)}
-      />
+      <div className="input-group">
+        <InputField
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={playerData.email || ""}
+          onChange={(e) => handleChange(e, playerKey)}
+          readOnly={true}
+        />
+        {errors.email && <span className="error-message">{errors.email}</span>}
+      </div>
 
       <SelectField
         name="year"

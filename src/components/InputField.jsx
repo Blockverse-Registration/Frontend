@@ -3,7 +3,8 @@ export default function InputField({
   name,
   value,
   onChange,
-  placeholder
+  placeholder,
+  readOnly = false
 }) {
   return (
     <input
@@ -13,6 +14,7 @@ export default function InputField({
       onChange={onChange}
       placeholder={placeholder}
       required
+      readOnly={readOnly}
     />
   );
 }

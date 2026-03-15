@@ -270,8 +270,14 @@ body {
 }
 
 @keyframes blade-slide {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(400px); }
+  0%, 100% { 
+    top: 5%; 
+    height: 80px; /* Elongated at the top */
+  }
+  50% { 
+    top: 90%; 
+    height: 30px; /* Contracted at the bottom */
+  }
 }
 
 @keyframes starFloat {
@@ -400,31 +406,28 @@ body {
   z-index: 2; /* Ensure form is above stars */
   overflow: hidden;
   animation: pulseBorder 5s infinite ease-in-out;
+  transition: min-height 0.4s ease-out; /* Smoothly handle height changes */
 }
 
 /* Futuristic "Energy Blade" Accent */
 .container::before {
   content: '';
   position: absolute;
-  top: 10%;
   left: 0;
   width: 3px;
-  height: 40px;
   background: var(--neon-cyan);
   box-shadow: 0 0 15px var(--neon-cyan), 0 0 30px var(--neon-cyan);
   border-radius: 0 4px 4px 0;
   z-index: 2;
-  animation: blade-slide 8s ease-in-out infinite; /* Slowed down to 8s */
+  animation: blade-slide 8s ease-in-out infinite;
 }
 
 /* Second Energy Blade on the Right */
 .container::after {
   content: '';
   position: absolute;
-  top: 10%;
   right: 0;
   width: 3px;
-  height: 40px;
   background: var(--neon-cyan);
   box-shadow: 0 0 15px var(--neon-cyan), 0 0 30px var(--neon-cyan);
   border-radius: 4px 0 0 4px;
@@ -661,6 +664,54 @@ select,
   font-family: 'Orbitron', 'Segoe UI', sans-serif;
 }
 
+.password-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-input-wrapper input {
+  padding-right: 45px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none !important;
+  border: none !important;
+  padding: 8px !important;
+  margin: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  cursor: pointer;
+  color: var(--muted-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease !important;
+  z-index: 2;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.password-toggle:hover:not(:disabled) {
+  background: none !important;
+  color: var(--neon-cyan) !important;
+  box-shadow: none !important;
+  transform: translateY(-50%) scale(1.1) !important;
+  letter-spacing: normal !important;
+}
+
+.password-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.password-toggle::before {
+  display: none !important;
+}
+
 input::placeholder {
   color: rgba(255, 255, 255, 0.2);
 }
@@ -824,6 +875,22 @@ button:disabled {
   gap: 15px;
 }
 
+.input-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.error-message {
+  color: #ff4d4d;
+  font-size: 0.75rem;
+  margin-top: -8px;
+  margin-bottom: 8px;
+  padding-left: 5px;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 5px rgba(255, 77, 77, 0.3);
+}
+
 /* Desktop Only: Cyberpunk Animated Grid */
 @media (min-width: 1025px) {
   body {
@@ -936,6 +1003,14 @@ button:disabled {
 
   .prize-value {
     font-size: 1.1rem;
+  }
+
+  /* Disable hover glow on mobile for highlight chips */
+  .chip:hover {
+    background: rgba(0, 243, 255, 0.05);
+    border-color: rgba(0, 243, 255, 0.2);
+    box-shadow: none;
+    transform: none;
   }
 
   .form-section {
