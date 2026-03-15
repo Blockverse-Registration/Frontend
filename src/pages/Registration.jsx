@@ -274,6 +274,11 @@ export default function Registration() {
       </div>
 
       <div className="form-section">
+        <div className="stars-container">
+          {[...Array(50)].map((_, i) => (
+            <div key={i} className={`star star-${i + 1}`}></div>
+          ))}
+        </div>
         <div className="container">
           <h2>Registration</h2>
 

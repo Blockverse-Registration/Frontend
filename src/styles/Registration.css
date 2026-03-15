@@ -4,7 +4,7 @@
   --neon-cyan: #00f3ff;
   --neon-blue: #0072ff;
   --dark-bg: #030712;
-  --glass-bg: rgba(15, 23, 42, 0.7);
+  --glass-bg: rgba(3, 7, 18, 0.5); /* Deep charcoal, more transparent */
   --neon-glow: 0 0 15px rgba(0, 243, 255, 0.4);
   --neon-border: 1px solid rgba(0, 243, 255, 0.3);
   --muted-text: rgba(255, 255, 255, 0.4);
@@ -269,6 +269,93 @@ body {
   text-shadow: none;
 }
 
+@keyframes blade-slide {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(400px); }
+}
+
+@keyframes starFloat {
+  0% { transform: translate(0, 0) scale(1); opacity: 0; }
+  25% { opacity: 0.8; }
+  50% { transform: translate(var(--x), var(--y)) scale(1.5); opacity: 1; }
+  75% { opacity: 0.8; }
+  100% { transform: translate(calc(var(--x) * 2), calc(var(--y) * 2)) scale(1); opacity: 0; }
+}
+
+.stars-container {
+  position: fixed; /* Fixed so stars stay as a background when scrolling */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0; /* Behind form content */
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 10px white, 0 0 20px var(--neon-cyan);
+  opacity: 0;
+  animation: starFloat 10s infinite linear;
+}
+
+/* Distributed 50 stars to cover the entire viewport area consistently */
+.star-1 { top: 2%; left: 2%; --x: 40px; --y: 40px; animation-delay: 0s; }
+.star-2 { top: 2%; left: 98%; --x: -40px; --y: 40px; animation-delay: 1s; }
+.star-3 { top: 98%; left: 2%; --x: 40px; --y: -40px; animation-delay: 2s; }
+.star-4 { top: 98%; left: 98%; --x: -40px; --y: -40px; animation-delay: 3s; }
+.star-5 { top: 50%; left: 2%; --x: 60px; --y: 0px; animation-delay: 4s; }
+.star-6 { top: 50%; left: 98%; --x: -60px; --y: 0px; animation-delay: 5s; }
+.star-7 { top: 2%; left: 50%; --x: 0px; --y: 60px; animation-delay: 6s; }
+.star-8 { top: 98%; left: 50%; --x: 0px; --y: -60px; animation-delay: 7s; }
+.star-9 { top: 15%; left: 15%; --x: 30px; --y: 30px; animation-delay: 0.5s; }
+.star-10 { top: 15%; left: 85%; --x: -30px; --y: 30px; animation-delay: 1.5s; }
+.star-11 { top: 85%; left: 15%; --x: 30px; --y: -30px; animation-delay: 2.5s; }
+.star-12 { top: 85%; left: 85%; --x: -30px; --y: -30px; animation-delay: 3.5s; }
+.star-13 { top: 10%; left: 40%; --x: 20px; --y: 80px; animation-delay: 4.5s; }
+.star-14 { top: 90%; left: 60%; --x: -20px; --y: -80px; animation-delay: 5.5s; }
+.star-15 { top: 40%; left: 10%; --x: 100px; --y: 20px; animation-delay: 6.5s; }
+.star-16 { top: 60%; left: 90%; --x: -100px; --y: -20px; animation-delay: 7.5s; }
+.star-17 { top: 5%; left: 25%; --x: 50px; --y: 120px; animation-delay: 0.2s; }
+.star-18 { top: 95%; left: 75%; --x: -50px; --y: -120px; animation-delay: 1.2s; }
+.star-19 { top: 30%; left: 5%; --x: 140px; --y: 40px; animation-delay: 2.2s; }
+.star-20 { top: 70%; left: 95%; --x: -140px; --y: -40px; animation-delay: 3.2s; }
+.star-21 { top: 20%; left: 70%; --x: -80px; --y: 100px; animation-delay: 4.2s; }
+.star-22 { top: 80%; left: 30%; --x: 80px; --y: -100px; animation-delay: 5.2s; }
+.star-23 { top: 45%; left: 45%; --x: 40px; --y: 40px; animation-delay: 6.2s; }
+.star-24 { top: 55%; left: 55%; --x: -40px; --y: -40px; animation-delay: 7.2s; }
+.star-25 { top: 8%; left: 80%; --x: -20px; --y: 150px; animation-delay: 0.8s; }
+.star-26 { top: 92%; left: 20%; --x: 20px; --y: -150px; animation-delay: 1.8s; }
+.star-27 { top: 35%; left: 92%; --x: -150px; --y: 20px; animation-delay: 2.8s; }
+.star-28 { top: 65%; left: 8%; --x: 150px; --y: -20px; animation-delay: 3.8s; }
+.star-29 { top: 12%; left: 12%; --x: 60px; --y: 60px; animation-delay: 4.8s; }
+.star-30 { top: 88%; left: 88%; --x: -60px; --y: -60px; animation-delay: 5.8s; }
+.star-31 { top: 5%; left: 65%; --x: -20px; --y: 100px; animation-delay: 0.3s; }
+.star-32 { top: 95%; left: 35%; --x: 20px; --y: -100px; animation-delay: 1.3s; }
+.star-33 { top: 25%; left: 2%; --x: 100px; --y: 40px; animation-delay: 2.3s; }
+.star-34 { top: 75%; left: 98%; --x: -100px; --y: -40px; animation-delay: 3.3s; }
+.star-35 { top: 40%; left: 85%; --x: -50px; --y: 60px; animation-delay: 4.3s; }
+.star-36 { top: 60%; left: 15%; --x: 50px; --y: -60px; animation-delay: 5.3s; }
+.star-37 { top: 18%; left: 30%; --x: 30px; --y: 80px; animation-delay: 6.3s; }
+.star-38 { top: 82%; left: 70%; --x: -30px; --y: -80px; animation-delay: 7.3s; }
+.star-39 { top: 45%; left: 5%; --x: 120px; --y: 10px; animation-delay: 8.3s; }
+.star-40 { top: 55%; left: 95%; --x: -120px; --y: -10px; animation-delay: 9.3s; }
+.star-41 { top: 10%; left: 75%; --x: -40px; --y: 120px; animation-delay: 0.7s; }
+.star-42 { top: 90%; left: 25%; --x: 40px; --y: -120px; animation-delay: 1.7s; }
+.star-43 { top: 30%; left: 90%; --x: -150px; --y: 30px; animation-delay: 2.7s; }
+.star-44 { top: 70%; left: 10%; --x: 150px; --y: -30px; animation-delay: 3.7s; }
+.star-45 { top: 22%; left: 55%; --x: -10px; --y: 90px; animation-delay: 4.7s; }
+.star-46 { top: 78%; left: 45%; --x: 10px; --y: -90px; animation-delay: 5.7s; }
+.star-47 { top: 50%; left: 75%; --x: -60px; --y: -60px; animation-delay: 6.7s; }
+.star-48 { top: 50%; left: 25%; --x: 60px; --y: 60px; animation-delay: 7.7s; }
+.star-49 { top: 15%; left: 95%; --x: -100px; --y: 50px; animation-delay: 8.7s; }
+.star-50 { top: 85%; left: 5%; --x: 100px; --y: -50px; animation-delay: 9.7s; }
+
 /* Right Section: Form */
 .form-section {
   flex: 1;
@@ -302,14 +389,15 @@ body {
   padding: 40px;
   margin: auto 0;
   border-radius: 24px;
-  background: var(--glass-bg);
-  backdrop-filter: blur(25px);
+  background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.4), var(--glass-bg));
+  backdrop-filter: blur(15px);
   border: var(--neon-border);
   box-shadow: 
     0 30px 60px rgba(0, 0, 0, 0.8), 
     0 0 40px rgba(0, 243, 255, 0.1),
     inset 0 0 20px rgba(255, 255, 255, 0.02);
   position: relative;
+  z-index: 2; /* Ensure form is above stars */
   overflow: hidden;
   animation: pulseBorder 5s infinite ease-in-out;
 }
@@ -350,10 +438,7 @@ body {
   100% { transform: translateY(100%); opacity: 0; }
 }
 
-@keyframes blade-slide {
-  0%, 100% { top: 15%; height: 40px; opacity: 0.8; }
-  50% { top: 75%; height: 80px; opacity: 1; }
-}
+
 
 /* Custom Scrollbar - Hidden but scrollable */
 .form-section::-webkit-scrollbar {
@@ -493,6 +578,22 @@ select,
 
 input::placeholder {
   color: rgba(255, 255, 255, 0.2);
+}
+
+/* Chrome/Safari Autofill Styling Fix */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #030712 inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff;
+  border: 1px solid rgba(0, 243, 255, 0.3) !important;
+  transition: background-color 5000s ease-in-out 0s;
+  font-family: 'Orbitron', 'Segoe UI', sans-serif !important;
 }
 
 @keyframes sparkle {
