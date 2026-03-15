@@ -56,21 +56,21 @@ const secureFetch = async (endpoint, options = {}) => {
 };
 
 export const createOrder = async (data) => {
-  return secureFetch("/api/v1/payment/create-order", {
+  return secureFetch("/api/create-order", {
     method: "POST",
     body: JSON.stringify(data)  
   });
 };
 
 export const verifyPayment = async (paymentData) => {
-  return secureFetch("/api/v1/payment/verify", {
+  return secureFetch("/api/verify-payment", {
     method: "POST",
     body: JSON.stringify(paymentData)
   });
 };
 
 export const registerTeam = async (teamData) => {
-  return secureFetch("/api/v1/team-registration-ax92", { 
+  return secureFetch("/api/register-team", { 
     method: "POST",
     body: JSON.stringify(teamData)
   });
