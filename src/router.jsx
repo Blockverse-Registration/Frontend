@@ -4,10 +4,11 @@ import Success from "./pages/Success";
 
 function AppRouter() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/register">
       <Routes>
         <Route path="/" element={<Registration />} />
         <Route path="/success" element={<Success />} />
+        
       </Routes>
     </BrowserRouter>
   );
