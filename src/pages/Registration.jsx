@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
 import PlayerForm from "../components/PlayerForm";
+import posterImg from "../assets/poster.png";
 import {
   createOrder,
   verifyPayment,
@@ -95,7 +96,7 @@ export default function Registration() {
   }, []);
 
   useEffect(() => {
-    const token = crypto.randomUUID();
+    const token = Math.random().toString(36).substring(2) + Date.now().toString(36);
     sessionStorage.setItem("session_token", token);
   }, []);
 
@@ -187,9 +188,51 @@ export default function Registration() {
 
     if (formData.team_type === "duo") {
       isP2Valid = validatePlayer(formData.player2, "player2");
+
+      if (formData.player1.year !== formData.player2.year) {
+        setErrors((prev) => ({
+          ...prev,
+          player2: {
+            ...prev.player2,
+            year: "Both players must be from the same year."
+          }
+        }));
+        isP2Valid = false;
+      }
+
+      if (formData.player1.student_no === formData.player2.student_no && formData.player1.student_no !== "") {
+        setErrors((prev) => ({
+          ...prev,
+          player2: {
+            ...(prev.player2 || {}),
+            student_no: "Student numbers must be different."
+          }
+        }));
+        isP2Valid = false;
+      }
     }
 
     if (!isP1Valid || !isP2Valid) {
+      setIsSubmitting(false);
+      return;
+    }
+
+    const teamNameRegex = /^[a-zA-Z0-9 ]{3,20}$/;
+    if (!teamNameRegex.test(formData.teamId)) {
+      setErrors((prev) => ({
+        ...prev,
+        teamId: "Team Name must be 3-20 alphanumeric characters."
+      }));
+      setIsSubmitting(false);
+      return;
+    }
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(formData.password)) {
+      setErrors((prev) => ({
+        ...prev,
+        password: "Password must be at least 8 characters, include uppercase, lowercase, number, and special character."
+      }));
       setIsSubmitting(false);
       return;
     }
@@ -267,7 +310,7 @@ export default function Registration() {
 
   return (
     <div className="page-wrapper">
-      <div className="info-section">
+      <div className="info-section" style={{ backgroundImage: `linear-gradient(rgba(3, 7, 18, 0.8), rgba(3, 7, 18, 0.9)), url(${posterImg})` }}>
         <div className="tech-bg"></div>
         <div className="content-wrapper">
           <h1 className="event-title">BLOCKVERSE '26</h1>
@@ -330,16 +373,6 @@ export default function Registration() {
               autoComplete="off"
             />
 
-            <input
-              type="text"
-              name="teamId"
-              placeholder="Team Name"
-              value={formData.teamId}
-              onChange={handleChange}
-              required
-              disabled={lockRemaining > 0}
-            />
-
             <div className="segmented-selector">
               <div 
                 className={`selector-option ${formData.team_type === 'solo' ? 'selected' : ''}`}
@@ -352,7 +385,7 @@ export default function Registration() {
                   </svg>
                   <span>Solo</span>
                 </div>
-                <div className="selector-price">₹200</div>
+                <div className="selector-price">₹150</div>
               </div>
 
               <div 
@@ -368,8 +401,21 @@ export default function Registration() {
                   </svg>
                   <span>Duo</span>
                 </div>
-                <div className="selector-price">₹350</div>
+                <div className="selector-price">₹250</div>
               </div>
+            </div>
+
+            <div className="input-group">
+              <input
+                type="text"
+                name="teamId"
+                placeholder="Team Name"
+                value={formData.teamId}
+                onChange={handleChange}
+                required
+                disabled={lockRemaining > 0}
+              />
+              {errors.teamId && <span className="error-message">{errors.teamId}</span>}
             </div>
 
             <div className="player-forms-container">
@@ -396,34 +442,37 @@ export default function Registration() {
               )}
             </div>
 
-            <div className="password-input-wrapper">
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                placeholder="Strong Password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                disabled={lockRemaining > 0}
-              />
-              <button
-                type="button"
-                className="password-toggle"
-                onClick={() => setShowPassword(!showPassword)}
-                disabled={lockRemaining > 0}
-              >
-                {showPassword ? (
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
-                    <line x1="1" y1="1" x2="23" y2="23" />
-                  </svg>
-                ) : (
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                    <circle cx="12" cy="12" r="3" />
-                  </svg>
-                )}
-              </button>
+            <div className="input-group">
+              <div className="password-input-wrapper">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="Strong Password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  disabled={lockRemaining > 0}
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword(!showPassword)}
+                  disabled={lockRemaining > 0}
+                >
+                  {showPassword ? (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                      <line x1="1" y1="1" x2="23" y2="23" />
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  )}
+                </button>
+              </div>
+              {errors.password && <span className="error-message">{errors.password}</span>}
             </div>
 
             <div className="captcha-wrapper">

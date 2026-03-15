@@ -45,16 +45,19 @@ export default function PlayerForm({
         {errors.email && <span className="error-message">{errors.email}</span>}
       </div>
 
-      <SelectField
-        name="year"
-        value={playerData.year || ""}
-        onChange={(e) => handleChange(e, playerKey)}
-        placeholder="Select Year"
-        options={[
-          { label: "1st Year", value: "1st Year" },
-          { label: "2nd Year", value: "2nd Year" }
-        ]}
-      />
+      <div className="input-group">
+        <SelectField
+          name="year"
+          value={playerData.year || ""}
+          onChange={(e) => handleChange(e, playerKey)}
+          placeholder="Select Year"
+          options={[
+            { label: "1st Year", value: "1st Year" },
+            { label: "2nd Year", value: "2nd Year" }
+          ]}
+        />
+        {errors.year && <span className="error-message">{errors.year}</span>}
+      </div>
 
       <SelectField
         name="gender"
