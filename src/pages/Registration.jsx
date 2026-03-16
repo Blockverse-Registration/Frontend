@@ -46,7 +46,7 @@ export default function Registration() {
   });
 
   const [recaptchaToken, setRecaptchaToken] = useState(null);
-  const [captchaError, setCaptchaError] = useState(false);
+  const [recaptchaError, setRecaptchaError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [lockRemaining, setLockRemaining] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
@@ -175,7 +175,7 @@ export default function Registration() {
 
     setIsSubmitting(true);
 
-    if (!recaptchaToken && !captchaError && import.meta.env.VITE_RECAPTCHA_SITE_KEY) {
+    if (!recaptchaToken && !recaptchaError && import.meta.env.VITE_RECAPTCHA_SITE_KEY) {
       setIsSubmitting(false);
       alert("Complete CAPTCHA.");
       return;
@@ -511,15 +511,15 @@ export default function Registration() {
             </div>
 
             <div className="captcha-wrapper">
-              {import.meta.env.VITE_RECAPTCHA_SITE_KEY && !captchaError ? (
+              {import.meta.env.VITE_RECAPTCHA_SITE_KEY && !recaptchaError ? (
                 <ReCAPTCHA
                   sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-                  onChange={(token) => setCaptchaToken(token)}
-                  onErrored={() => setCaptchaError(true)}
+                  onChange={(token) => setRecaptchaToken(token)}
+                  onErrored={() => setRecaptchaError(true)}
                 />
               ) : (
                 <div className="captcha-error">
-                  {captchaError
+                  {recaptchaError   
                     ? "ReCAPTCHA failed to load. You may continue without it."
                     : "ReCAPTCHA site key is missing. You may continue without it."}
                 </div>
