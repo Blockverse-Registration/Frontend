@@ -238,6 +238,7 @@ export default function Registration() {
     }
 
     try {
+      /* Commenting out Razorpay logic
       const order = await createOrder({
         team_type: formData.team_type
       });
@@ -295,6 +296,36 @@ export default function Registration() {
 
       const rzp = new window.Razorpay(options);
       rzp.open();
+      */
+
+      // Direct registration without payment
+      const payload =
+        formData.team_type === "solo"
+          ? {
+              teamId: formData.teamId,
+              team_type: formData.team_type,
+              player1: formData.player1,
+              password: formData.password,
+              paymentId: "OFFLINE_PAYMENT", // Dummy ID since payment is skipped
+              captchaToken
+            }
+          : {
+              ...formData,
+              paymentId: "OFFLINE_PAYMENT",
+              captchaToken
+            };
+
+      const result = await registerTeam(payload);
+
+      if (result.success) {
+        localStorage.removeItem("attemptData");
+        setLockRemaining(0);
+        navigate("/success");
+      } else {
+        alert(result.message || "Registration failed.");
+      }
+
+      setIsSubmitting(false);
 
     } catch (error) {
       alert(error.message || "Something went wrong.");
@@ -492,7 +523,7 @@ export default function Registration() {
             </div>
 
             <button type="submit" disabled={isSubmitting || lockRemaining > 0}>
-              {isSubmitting ? "Processing Payment..." : "Pay & Register"}
+              {isSubmitting ? "Registering..." : "Register Now"}
             </button>
 
           </form>
