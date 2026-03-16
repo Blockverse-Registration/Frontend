@@ -45,7 +45,7 @@ export default function Registration() {
     }
   });
 
-  const [captchaToken, setCaptchaToken] = useState(null);
+  const [recaptchaToken, setRecaptchaToken] = useState(null);
   const [captchaError, setCaptchaError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [lockRemaining, setLockRemaining] = useState(0);
@@ -175,7 +175,7 @@ export default function Registration() {
 
     setIsSubmitting(true);
 
-    if (!captchaToken && !captchaError && import.meta.env.VITE_RECAPTCHA_SITE_KEY) {
+    if (!recaptchaToken && !captchaError && import.meta.env.VITE_RECAPTCHA_SITE_KEY) {
       setIsSubmitting(false);
       alert("Complete CAPTCHA.");
       return;
@@ -268,12 +268,12 @@ export default function Registration() {
                   player1: formData.player1,
                   password: formData.password,
                   paymentId: verifyRes.paymentId,
-                  captchaToken
+                  recaptchaToken
                 }
               : {
                   ...formData,
                   paymentId: verifyRes.paymentId,
-                  captchaToken
+                  recaptchaToken
                 };
 
           const result = await registerTeam(payload);
@@ -306,13 +306,13 @@ export default function Registration() {
               team_type: formData.team_type,
               player1: formData.player1,
               password: formData.password,
-              paymentId: "OFFLINE_PAYMENT", // Dummy ID since payment is skipped
-              captchaToken
+              // paymentId: "OFFLINE_PAYMENT", // Dummy ID since payment is skipped
+              recaptchaToken
             }
           : {
               ...formData,
-              paymentId: "OFFLINE_PAYMENT",
-              captchaToken
+              // paymentId: "OFFLINE_PAYMENT",
+              recaptchaToken
             };
 
       const result = await registerTeam(payload);

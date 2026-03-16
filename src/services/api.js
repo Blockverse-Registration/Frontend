@@ -55,19 +55,19 @@ const secureFetch = async (endpoint, options = {}) => {
   }
 };
 
-export const createOrder = async (data) => {
-  return secureFetch("/api/create-order", {
-    method: "POST",
-    body: JSON.stringify(data)  
-  });
-};
+// export const createOrder = async (data) => {
+//   return secureFetch("/api/create-order", {
+//     method: "POST",
+//     body: JSON.stringify(data)  
+//   });
+// };
 
-export const verifyPayment = async (paymentData) => {
-  return secureFetch("/api/verify-payment", {
-    method: "POST",
-    body: JSON.stringify(paymentData)
-  });
-};
+// export const verifyPayment = async (paymentData) => {
+//   return secureFetch("/api/verify-payment", {
+//     method: "POST",
+//     body: JSON.stringify(paymentData)
+//   });
+// };
 
 export const registerTeam = async (teamData) => {
   return secureFetch("/api/register-team", { 
