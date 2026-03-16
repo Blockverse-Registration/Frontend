@@ -77,16 +77,17 @@ export default function PlayerForm({
         placeholder="Select Branch"
         options={[
           { label: "CSE", value: "CSE" },
-          { label: "CSE (AIML)", value: "CSE(AIML)" },
-          { label: "CSE (DS)", value: "CSE(DS)" },
+          { label: "CSE-AIML", value: "CSE(AIML)" },
+          { label: "CSE-DS", value: "CSE(DS)" },
           { label: "CS", value: "CS" },
           { label: "AIML", value: "AIML" },
           { label: "IT", value: "IT" },
           { label: "CSIT", value: "CSIT" },
+          { label: "CS(Hindi)", value: "CSEH" },
           { label: "ECE", value: "ECE" },
-          { label: "EEE", value: "EEE" },
+          { label: "EN", value: "EN" },
           { label: "ME", value: "ME" },
-          { label: "CE", value: "CE" }
+          { label: "Civil", value: "Civil" }
         ]}
       />
 
