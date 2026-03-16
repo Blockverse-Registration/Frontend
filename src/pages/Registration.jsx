@@ -122,32 +122,6 @@ export default function Registration() {
           } else {
             updatedPlayer.email = "";
           }
-
-          // Auto Branch Detection
-          if (studentNo.length >= 4) {
-            const prefix = studentNo.substring(0, 2); // 24 or 25
-            if (prefix === "24" || prefix === "25") {
-              const code3 = studentNo.substring(2, 5); // check for 3-digit codes first
-              const code2 = studentNo.substring(2, 4); // then 2-digit codes
-
-              const branchMapping = {
-                "154": "CSE(DS)",
-                "153": "CSE(AIML)",
-                "169": "CSEH",
-                "164": "AIML",
-                "10": "CSE",
-                "11": "CSIT",
-                "12": "CS",
-                "13": "IT",
-                "31": "ECE",
-                "40": "ME",
-                "00": "Civil",
-                "21": "EN"
-              };
-
-              updatedPlayer.branch = branchMapping[code3] || branchMapping[code2] || updatedPlayer.branch;
-            }
-          }
         }
 
         return {
@@ -174,8 +148,39 @@ export default function Registration() {
     }
 
     const studentNoTrimmed = player.student_no.trim();
-    if (studentNoTrimmed.length < 6 || studentNoTrimmed.length > 8) {
+    if (player.student_no.trim().length < 6 || player.student_no.trim().length > 8) {
       playerErrors.student_no = (playerErrors.student_no ? playerErrors.student_no + " " : "") + "Student number must be 6-8 digits.";
+    }
+
+    // Branch to Student Number Validation
+    if (player.branch && player.student_no.length >= 4) {
+      const studentNo = player.student_no.trim();
+      const code3 = studentNo.substring(2, 5);
+      const code2 = studentNo.substring(2, 4);
+
+      const branchToCodes = {
+        "CSE(DS)": ["154"],
+        "CSE(AIML)": ["153"],
+        "CSEH": ["169"],
+        "AIML": ["164"],
+        "CSE": ["10"],
+        "CSIT": ["11"],
+        "CS": ["12"],
+        "IT": ["13"],
+        "ECE": ["31"],
+        "ME": ["40"],
+        "Civil": ["00"],
+        "EN": ["21"]
+      };
+
+      const validCodes = branchToCodes[player.branch] || [];
+      const isValid = validCodes.some(code => 
+        (code.length === 3 && code === code3) || (code.length === 2 && code === code2)
+      );
+
+      if (!isValid) {
+        playerErrors.branch = "Selected branch does not match the student number code.";
+      }
     }
 
     const firstName = player.name.trim().split(" ")[0].toLowerCase();

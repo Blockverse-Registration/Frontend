@@ -70,26 +70,29 @@ export default function PlayerForm({
         ]}
       />
 
-      <SelectField
-        name="branch"
-        value={playerData.branch || ""}
-        onChange={(e) => handleChange(e, playerKey)}
-        placeholder="Select Branch"
-        options={[
-          { label: "CSE", value: "CSE" },
-          { label: "CSE-AIML", value: "CSE(AIML)" },
-          { label: "CSE-DS", value: "CSE(DS)" },
-          { label: "CS", value: "CS" },
-          { label: "AIML", value: "AIML" },
-          { label: "IT", value: "IT" },
-          { label: "CSIT", value: "CSIT" },
-          { label: "CS(Hindi)", value: "CSEH" },
-          { label: "ECE", value: "ECE" },
-          { label: "EN", value: "EN" },
-          { label: "ME", value: "ME" },
-          { label: "Civil", value: "Civil" }
-        ]}
-      />
+      <div className="input-group">
+        <SelectField
+          name="branch"
+          value={playerData.branch || ""}
+          onChange={(e) => handleChange(e, playerKey)}
+          placeholder="Select Branch"
+          options={[
+            { label: "CSE", value: "CSE" },
+            { label: "CSE-AIML", value: "CSE(AIML)" },
+            { label: "CSE-DS", value: "CSE(DS)" },
+            { label: "CS", value: "CS" },
+            { label: "AIML", value: "AIML" },
+            { label: "IT", value: "IT" },
+            { label: "CSIT", value: "CSIT" },
+            { label: "CS(Hindi)", value: "CSEH" },
+            { label: "ECE", value: "ECE" },
+            { label: "EN", value: "EN" },
+            { label: "ME", value: "ME" },
+            { label: "Civil", value: "Civil" }
+          ]}
+        />
+        {errors.branch && <span className="error-message">{errors.branch}</span>}
+      </div>
 
       <SelectField
         name="residence"
