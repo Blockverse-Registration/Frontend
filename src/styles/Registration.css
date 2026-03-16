@@ -192,6 +192,11 @@ body {
   font-size: 1.2rem;
 }
 
+.registration-fee .value {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+}
+
 .highlights {
   margin-top: 50px;
 }
@@ -965,11 +970,18 @@ button:disabled {
   .detail-item {
     font-size: 1.1rem;
     justify-content: center;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    gap: 8px;
   }
 
   .detail-item .label {
     width: auto;
     font-size: 0.8rem;
+    min-width: 80px;
+  }
+
+  .registration-fee .value {
+    font-size: 1rem;
   }
 
   .highlights {

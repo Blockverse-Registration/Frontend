@@ -360,6 +360,10 @@ export default function Registration() {
               <span className="label">Venue:</span>
               <span className="value">CSIT Block</span>
             </div>
+            <div className="detail-item registration-fee">
+              <span className="label">Fee:</span>
+              <span className="value">₹150 (Solo) / ₹250 (Duo)</span>
+            </div>
           </div>
 
           <div className="highlights">
