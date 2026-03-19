@@ -400,7 +400,7 @@ export default function Registration() {
             </div>
             <div className="detail-item registration-fee">
               <span className="label">Fee:</span>
-              <span className="value">₹150 (Solo) / ₹250 (Duo)</span>
+              <span className="value">₹100 (Solo) / ₹150 (Duo)</span>
             </div>
           </div>
 
@@ -458,7 +458,7 @@ export default function Registration() {
                   </svg>
                   <span>Solo</span>
                 </div>
-                <div className="selector-price">₹150</div>
+                <div className="selector-price">₹100</div>
               </div>
 
               <div 
@@ -474,7 +474,7 @@ export default function Registration() {
                   </svg>
                   <span>Duo</span>
                 </div>
-                <div className="selector-price">₹250</div>
+                <div className="selector-price">₹150</div>
               </div>
             </div>
 
