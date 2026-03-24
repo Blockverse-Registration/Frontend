@@ -388,7 +388,7 @@ export default function Registration() {
           <div className="event-details">
             <div className="detail-item">
               <span className="label">Date:</span>
-              <span className="value">22–24 March</span>
+              <span className="value">5-7 Aprail</span>
             </div>
             <div className="detail-item">
               <span className="label">Team Size:</span>
