@@ -10,7 +10,7 @@ import {
 export default function Registration() {
   const navigate = useNavigate();
 
-  const registrationEnd = new Date("2026-03-24");
+  const registrationEnd = new Date("2026-04-12");
   if (new Date() > registrationEnd) {
     return (
       <div className="container">
@@ -386,7 +386,7 @@ export default function Registration() {
           <div className="event-details">
             <div className="detail-item">
               <span className="label">Date:</span>
-              <span className="value">22–24 March</span>
+              <span className="value">5-7 April</span>
             </div>
             <div className="detail-item">
               <span className="label">Team Size:</span>
