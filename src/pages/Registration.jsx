@@ -394,7 +394,7 @@ export default function Registration() {
             </div>
             <div className="detail-item">
               <span className="label">Venue:</span>
-              <span className="value">CSIT Seminar Hall</span>
+              <span className="value">Main Seminar Hall</span>
             </div>
             <div className="detail-item registration-fee">
               <span className="label">Fee:</span>
