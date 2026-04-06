@@ -4,8 +4,6 @@ import ReCAPTCHA from "react-google-recaptcha";
 import PlayerForm from "../components/PlayerForm";
 import posterImg from "../assets/poster.png";
 import {
-  createOrder,
-  verifyPayment,
   registerTeam
 } from "../services/api";
 
@@ -396,11 +394,11 @@ export default function Registration() {
             </div>
             <div className="detail-item">
               <span className="label">Venue:</span>
-              <span className="value">CSIT Block</span>
+              <span className="value">CSIT Seminar Hall</span>
             </div>
             <div className="detail-item registration-fee">
               <span className="label">Fee:</span>
-              <span className="value">₹100 (Solo) / ₹150 (Duo)</span>
+              <span className="value">₹60 (Solo) / ₹100 (Duo)</span>
             </div>
           </div>
 
@@ -458,7 +456,7 @@ export default function Registration() {
                   </svg>
                   <span>Solo</span>
                 </div>
-                <div className="selector-price">₹100</div>
+                <div className="selector-price">₹60</div>
               </div>
 
               <div 
@@ -474,7 +472,7 @@ export default function Registration() {
                   </svg>
                   <span>Duo</span>
                 </div>
-                <div className="selector-price">₹150</div>
+                <div className="selector-price">₹100</div>
               </div>
             </div>
 
